@@ -1,18 +1,17 @@
 package gui;
 
-import controller.Controller;
+
 
 import javafx.application.Application;
 
 import javafx.geometry.Insets;
-import javafx.scene.Group;
+
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
+
 import javafx.stage.Stage;
 
 import java.util.Timer;
@@ -22,12 +21,11 @@ import java.util.concurrent.TimeUnit;
 
 public class StartWindow extends Application{
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stage.setTitle("Sunset Salat 3-Timer");
         GridPane pane = new GridPane();
         this.initContent(pane);
-
-        Scene scene = new Scene(pane,1080,670);
+        Scene scene = new Scene(pane,1080,340);
         stage.getIcons().add(new Image("/GUI/sunset.png"));
         stage.setScene(scene);
         stage.show();
@@ -35,7 +33,6 @@ public class StartWindow extends Application{
 
     private TextField txfSalatmix, txfIceberg,txfAgurk, txfTomat, txfPickles, txfOst, txfLøg, txfRødløg;
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8;
-    private Label lbl1, lbl2;
 
 
     private void initContent(GridPane pane) {
@@ -43,10 +40,7 @@ public class StartWindow extends Application{
         pane.setHgap(10);
         pane.setVgap(10);
         pane.setPadding(new Insets(20));
-        BackgroundImage myBI= new BackgroundImage(new Image("/GUI/SunsetBackground.png"),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-//then you set to your node
+        BackgroundImage myBI= new BackgroundImage(new Image("/GUI/SunsetBG.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         pane.setBackground(new Background(myBI));
 
 
@@ -87,13 +81,21 @@ public class StartWindow extends Application{
         btn8.setPrefWidth(250);
 
         txfIceberg = new TextField("Ikke startet");
+        txfIceberg.setEditable(false);
         txfLøg = new TextField("Ikke startet");
+        txfLøg.setEditable(false);
         txfOst = new TextField("Ikke startet");
+        txfOst.setEditable(false);
         txfRødløg = new TextField("Ikke startet");
+        txfRødløg.setEditable(false);
         txfSalatmix = new TextField("Ikke startet");
+        txfSalatmix.setEditable(false);
         txfTomat = new TextField("Ikke startet");
+        txfTomat.setEditable(false);
         txfAgurk = new TextField("Ikke startet");
+        txfAgurk.setEditable(false);
         txfPickles = new TextField("Ikke startet");
+        txfPickles.setEditable(false);
 
         pane.add(txfIceberg,0,0);
         pane.add(txfLøg,1,0);
@@ -104,9 +106,6 @@ public class StartWindow extends Application{
         pane.add(txfAgurk,2,2);
         pane.add(txfPickles,3,2);
 
-
-
-        Button button = new Button("Start Timer");
 
         btn1.setOnAction(event -> this.icebergTid());
         btn2.setOnAction(event -> this.løgTid());
@@ -139,11 +138,16 @@ public class StartWindow extends Application{
     }
 
     private void icebergTid(){
+        btn1.setStyle("-fx-background-color: #1E8449; -fx-text-fill: white; -fx-font-size: 15");
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             int counter = 180;
             @Override
             public void run() {
+                if(counter <= 15){
+                    txfIceberg.setStyle("-fx-background-color: red; -fx-text-fill: white");
+                    btn1.setStyle("-fx-background-color: red; -fx-text-fill: white");
+                }
                 if(counter > 0){
                     txfIceberg.setText(fromMinutesToHHmm(counter));
                     counter--;
@@ -151,11 +155,10 @@ public class StartWindow extends Application{
                     txfIceberg.setText("Iceberg");
                     timer.cancel();
                 }
-
             }
         };
         timer.scheduleAtFixedRate(timerTask,0,60000);
-        btn1.setStyle("-fx-background-color: #1E8449; -fx-text-fill: white; -fx-font-size: 15");
+
     }
 
     private void løgTid(){
@@ -168,8 +171,7 @@ public class StartWindow extends Application{
                     txfLøg.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfLøg.setText("Iceberg");
-                    timer.cancel();
+                    txfLøg.setText("Løg");
                 }
 
             }
@@ -188,8 +190,7 @@ public class StartWindow extends Application{
                     txfOst.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfOst.setText("Iceberg");
-                    timer.cancel();
+                    txfOst.setText("Ost");
                 }
 
             }
@@ -208,8 +209,7 @@ public class StartWindow extends Application{
                     txfRødløg.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfRødløg.setText("Iceberg");
-                    timer.cancel();
+                    txfRødløg.setText("Rødløg");
                 }
 
             }
@@ -228,8 +228,7 @@ public class StartWindow extends Application{
                     txfSalatmix.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfSalatmix.setText("Iceberg");
-                    timer.cancel();
+                    txfSalatmix.setText("Salatmix");
                 }
 
             }
@@ -248,8 +247,8 @@ public class StartWindow extends Application{
                     txfTomat.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfTomat.setText("Iceberg");
-                    timer.cancel();
+                    txfTomat.setText("Tomat");
+
                 }
 
             }
@@ -268,8 +267,8 @@ public class StartWindow extends Application{
                     txfAgurk.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfAgurk.setText("Iceberg");
-                    timer.cancel();
+                    txfAgurk.setText("Agurk");
+
                 }
 
             }
@@ -288,8 +287,7 @@ public class StartWindow extends Application{
                     txfPickles.setText(fromMinutesToHHmm(counter));
                     counter--;
                 }else{
-                    txfPickles.setText("Iceberg");
-                    timer.cancel();
+                    txfPickles.setText("Pickles");
                 }
 
             }
@@ -298,27 +296,8 @@ public class StartWindow extends Application{
         btn8.setStyle("-fx-background-color: #1E8449; -fx-text-fill: white; -fx-font-size: 15");
     }
 
-//    private void timer() {
-//        Timer timer = new Timer();
-//        TimerTask timerTask = new TimerTask() {
-//            int counter = 180;
-//            @Override
-//            public void run() {
-//                if(counter > 0){
-//                     txfAgurk.setText(fromMinutesToHHmm(counter));
-//                    counter--;
-//                }else{
-//                    txfIceberg.setText("Iceberg");
-//                    timer.cancel();
-//                }
-//
-//            }
-//        };
-//        timer.scheduleAtFixedRate(timerTask,0,60000);
-//    }
-
     public String fromMinutesToHHmm(int minutes) {
-        long hours = TimeUnit.MINUTES.toHours(Long.valueOf(minutes));
+        long hours = TimeUnit.MINUTES.toHours(minutes);
         long remainMinutes = minutes - TimeUnit.HOURS.toMinutes(hours);
         return String.format("%02d:%02d", hours, remainMinutes);
     }
